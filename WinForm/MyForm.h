@@ -425,7 +425,7 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 	const int m = Convert::ToInt32(m_Text->Text); //Число узлов по y
 	int Nmax = Convert::ToInt32(Nmax_Text->Text); //Максимальное число итераций
 	double Epsilon = Convert::ToDouble(Epsilon_Text->Text); //Точность
-	double h = 1.0 / n, k = 1.0 / m; //Шаги по x и y
+	double h = 2.0 / n, k = 2.0 / m; //Шаги по x и y
 	double h2 = 1.0 / (h*h), k2 = 1.0 / (k*k); 
 	double A = -2 * (h2 + k2);
 	double **v, **f, **u;
@@ -453,12 +453,12 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 
 	for (int i = 0; i <= n; i++)  //Заполнение массива x
 	{
-		x[i] = i*h;
+		x[i] = -1 + i * h;
 	}
 
 	for (int j = 0; j <= m; j++)  //Заполнение массива y
 	{
-		y[j] = j*k;
+		y[j] = -1 + j * k;
 	}
 
 	for (int j = 0; j <= m; j++)            //Заполнение массивов f и u
@@ -472,13 +472,13 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 
 	for (int j = 0; j <= m; j++)  //Заполнение граничных условий в массив v
 	{
-		v[0][j] = u1(0, y[j]);
+		v[0][j] = u1(-1, y[j]);
 		v[n][j] = u1(1, y[j]);
 	}
 
 	for (int i = 0; i <= n; i++)  //Заполнение граничных условий в массив v
 	{
-		v[i][0] = u1(x[i], 0);
+		v[i][0] = u1(x[i], -1);
 		v[i][m] = u1(x[i], 1);
 	}
 
